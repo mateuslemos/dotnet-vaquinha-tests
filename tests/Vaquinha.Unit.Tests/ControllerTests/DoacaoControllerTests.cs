@@ -103,12 +103,16 @@ namespace Vaquinha.Unit.Tests.ControllerTests
             // Act
             var retorno = _doacaoController.Create(doacaoModelInvalida);
 
-            // Assert                   
+            // Assert
+            #region COMPORTAMENTOS ESPERADOS E O QUE SERÁ EXECUTADO DENTRO DE UMA CONTROLLER
+
             retorno.Should().BeOfType<ViewResult>();
 
             _mapper.Verify(a => a.Map<DoacaoViewModel, Doacao>(doacaoModelInvalida), Times.Once);
             _doacaoRepository.Verify(a => a.AdicionarAsync(doacao), Times.Never);
             _toastNotification.Verify(a => a.AddErrorToastMessage(It.IsAny<string>(), It.IsAny<LibraryOptions>()), Times.Once);
+
+            #endregion
 
             var viewResult = ((ViewResult)retorno);
 
